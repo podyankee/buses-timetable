@@ -1,0 +1,21 @@
+{
+	"name": "buses",
+	"version": "1.0.0",
+	"description": "Buses timetable",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [
+		"Buses",
+		"timetable"
+	],
+	"type": "module",
+	"author": "Kostyantin",
+	"license": "ISC",
+	"dependencies": {
+		"express": "^4.19.2",
+		"luxon": "^3.5.0"
+	}
+}
