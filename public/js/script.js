@@ -39,7 +39,11 @@ const renderBusData = buses => {
 		<td>${bus.startPoint} - ${bus.endPoint}</td>
 		<td>${formatDate(nextDepartureDateTimeUTC)}</td>
 		<td>${formatTime(nextDepartureDateTimeUTC)}</td>
+<<<<<<< HEAD
 		<td>${remainingTimeText}</td>
+=======
+		<td>${bus.nextDeparture.remaining}</td>
+>>>>>>> main
 		`;
 
 		tableBody.append(row);
@@ -67,6 +71,7 @@ const initWebSocket = () => {
 	});
 };
 
+<<<<<<< HEAD
 const updateTime = () => {
 	const currentTimeElement = document.getElementById('current-time');
 	const now = new Date();
@@ -75,12 +80,19 @@ const updateTime = () => {
 	setTimeout(updateTime, 1000);
 };
 
+=======
+>>>>>>> main
 const init = async () => {
 	const buses = await fetchBusData();
 	renderBusData(buses);
 
 	initWebSocket();
+<<<<<<< HEAD
 	updateTime();
+=======
+>>>>>>> main
 };
 
 init();
+
+//Renew branch
