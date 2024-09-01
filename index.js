@@ -16,34 +16,33 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 
 const loadBuses = async () => {
-	const data = await readFile(path.join(__dirname, 'buses.json'), 'utf-8');
-	return JSON.parse(data);
+	try {
+		const data = await readFile(path.join(__dirname, 'buses.json'), 'utf-8');
+		return JSON.parse(data);
+	} catch (error) {
+		console.error('error: ', error);
+	}
 };
 
 const getNextDeparture = (firstDepartureTime, frequencyMinutes) => {
 	const now = DateTime.now().setZone(timeZone);
 	const [hour, minute] = firstDepartureTime.split(':').map(Number);
 
-	let departure = DateTime.now().set({ hour, minute, second: 0 }).setZone(timeZone);
+	let departure = DateTime.now().set({ hour, minute, second: 0, millisecond: 0 }).setZone(timeZone);
+
+	const endOfDay = DateTime.now().set({ hour: 23, minute: 59, second: 59 }).setZone(timeZone);
 
 	if (now > departure) {
-		departure = departure.plus({ minutes: frequencyMinutes });
-	}
-
-	const endOfDay = DateTime.now().set({ hour: 23, minute: 59 }).setZone(timeZone);
-
-	if (now > endOfDay) {
-		departure = departure.startOf('day').plus({ days: 1 }).set({ hour, minute }).setZone(timeZone);
+		departure = departure.plus({ minute: frequencyMinutes });
 	}
 
 	while (now > departure) {
-		departure = departure.plus({ minutes: frequencyMinutes });
+		departure = departure.plus({ minute: frequencyMinutes });
 
-		if (now > endOfDay) {
-			departure = departure
-				.startOf('day')
+		if (departure > endOfDay) {
+			departure = DateTime.now()
+				.set({ hour, minute, second: 0, millisecond: 0 })
 				.plus({ days: 1 })
-				.set({ hour, minute })
 				.setZone(timeZone);
 		}
 	}

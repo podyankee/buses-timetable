@@ -84,5 +84,3 @@ const init = async () => {
 };
 
 init();
-
-//Comment
